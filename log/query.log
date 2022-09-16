@@ -1,0 +1,77 @@
+--- query 01 (count)
+SELECT COUNT(*) FROM data
+1000000  
+
+--- query 02 (count, where)
+SELECT COUNT(*) FROM data WHERE entrance = 2 AND carSize = 'm' AND floor = 3 AND durationInDays >= 10
+12644  
+
+--- query 03 (count, where, in)
+SELECT COUNT(*) FROM data WHERE entrance = 1 AND carSize IN ('l','m') AND floor = 2 AND durationInDays <= 3 AND payment = 'cash'
+2088  
+
+--- query 04 (count, where, not in)
+SELECT COUNT(*) FROM data WHERE entrance = 2 AND carSize = 'l' AND floor NOT IN (3,5) AND durationInDays <= 3 AND payment = 'credit'
+3215  
+
+--- query 05 (sum, where, in)
+SELECT SUM(durationInDays) FROM data WHERE floor = 1 AND carSize IN ('s','m') AND parkingSpot <= 5
+16423  
+
+--- query 06 (avg, where, not in)
+SELECT AVG(durationInDays) FROM data WHERE carSize = 'l' AND floor NOT IN (1,3,5) AND parkingSpot <= 5
+10  
+
+--- query 07 (id, where, in, order by desc limit)
+SELECT id FROM data WHERE entrance IN (1,3) AND carSize = 's' AND floor = 2 AND parkingSpot <= 3 AND durationInDays >= 2 AND durationInDays <= 5 AND payment = 'credit' ORDER BY durationInDays DESC LIMIT 3
+789902  
+379204  
+700107  
+
+--- query 08 (id, where, in, order by desc, order by asc)
+SELECT id FROM data WHERE entrance = 3 AND carSize IN ('s','l') AND floor = 4 AND parkingSpot >= 4 AND parkingSpot <= 5 AND durationInDays <= 5 AND payment = 'debit' ORDER BY durationInDays DESC, carSize
+509734  
+276604  
+545227  
+717209  
+762365  
+803518  
+472451  
+953216  
+938064  
+946558  
+198809  
+349454  
+241598  
+291495  
+416673  
+513287  
+
+--- query 09 (count, group by)
+SELECT floor,COUNT(*) FROM data GROUP BY floor
+4 199379  
+3 200100  
+1 200268  
+5 200255  
+2 199998  
+
+--- query 10 (count, where, group by)
+SELECT payment,COUNT(*) FROM data WHERE entrance = 1 AND carSize = 'l' AND parkingSpot >= 4 AND durationInDays <= 5 GROUP BY payment
+credit 8831  
+debit 8731  
+cash 8781  
+
+--- query 11 (count, where, in, group by)
+SELECT carSize,COUNT(*) FROM data WHERE parkingSpot >= 4 AND durationInDays <= 10 AND payment = 'credit' GROUP BY carSize
+l 52752  
+m 52718  
+s 52446  
+
+--- query 12 (count, where, not in, group by)
+SELECT durationInDays,COUNT(*) FROM data WHERE entrance = 3 AND carSize = 'm' AND parkingSpot NOT IN (2,4) AND durationInDays <= 5 AND payment = 'debit' GROUP BY durationInDays
+4 1696  
+2 1790  
+1 1706  
+5 1747  
+3 1729  
+
