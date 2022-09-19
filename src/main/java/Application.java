@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.averagingInt;
 import static java.util.stream.Collectors.groupingBy;
@@ -111,6 +112,28 @@ public class Application implements IApplication {
 
     public void executeQuery07() {
         System.out.println("--- executeQuery07 ---");
+        Predicate<Record> entranceIsOne = record -> record.getEntrance() == 1;
+        Predicate<Record> entranceIsThree = record -> record.getEntrance() == 3;
+        Predicate<Record> carSizeIsS = record -> record.getCarSize().equals("s");
+        Predicate<Record> floorIsTwo = record -> record.getFloor() == 2;
+        Predicate<Record> parkingSpotIsSmallerThanFour = record -> record.getParkingSpot() <= 3;
+        Predicate<Record> durationIsGreaterThanOne = record -> record.getDurationInDays() <= 5;
+        Predicate<Record> durationIsSmallerThanSix = record -> record.getDurationInDays() >= 2;
+        Predicate<Record> paymentIsCash = record -> record.getPayment().equals("credit");
+        Stream<Record> filteredStream07 = recordList.stream()
+                .filter(entranceIsOne.or(entranceIsThree))
+                .filter(carSizeIsS)
+                .filter(floorIsTwo)
+                .filter(parkingSpotIsSmallerThanFour)
+                .filter(durationIsGreaterThanOne)
+                .filter(durationIsSmallerThanSix)
+                .filter(paymentIsCash);
+        Comparator<Record> descendingDurationComparator = (Record record01, Record record02) -> (record02.getDurationInDays() - record01.getDurationInDays());
+        List<Integer> filteredList07 = filteredStream07.sorted(descendingDurationComparator)
+                .limit(3)
+                .map(x -> x.getId())
+                .toList();
+        System.out.println(filteredList07);
         System.out.println();
     }
 
