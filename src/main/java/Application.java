@@ -88,8 +88,19 @@ public class Application implements IApplication {
 
     public void executeQuery03() {
         System.out.println("--- executeQuery03 ---");
-        Predicate<Record> testAll=r->r.getEntrance()==1&&(r.getCarSize().equals("m")||r.getCarSize().equals("l"))&&r.getFloor()==2&& r.getDurationInDays()<=3&&r.getPayment().equals("cash");
-        System.out.println("result: "+ recordList.stream().filter(testAll).toList().size());
+        Predicate<Record> entranceIsOne = record -> record.getEntrance() == 1;
+        Predicate<Record> carSizeIsL = record -> record.getCarSize().equals("l");
+        Predicate<Record> carSizeIsM = record -> record.getCarSize().equals("m");
+        Predicate<Record> floorIsTwo = record -> record.getFloor() == 2;
+        Predicate<Record> durationIsSmallerThanFour = record -> record.getDurationInDays() <= 3;
+        Predicate<Record> paymentIsCash = record -> record.getPayment().equals("cash");
+        List<Record> filteredList03 = recordList.stream().filter(entranceIsOne)
+                .filter(carSizeIsL.or(carSizeIsM))
+                .filter(floorIsTwo)
+                .filter(durationIsSmallerThanFour)
+                .filter(paymentIsCash)
+                .toList();
+        System.out.println(filteredList03.size());
         System.out.println();
     }
 
