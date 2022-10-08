@@ -108,6 +108,8 @@ public class Application implements IApplication {
 
     public void executeQuery05() {
         System.out.println("--- executeQuery05 ---");
+        Predicate<Record> testAll = r -> r.getFloor() == 1&&(r.getCarSize().equals("s")||r.getCarSize().equals("m"))&&r.getParkingSpot()<=5;
+        System.out.println(recordList.stream().filter(testAll).toList().stream().collect(Collectors.summingInt(Record::getDurationInDays)));
         System.out.println();
     }
 
