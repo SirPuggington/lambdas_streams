@@ -15,6 +15,5 @@ public class TestApplication {
     @Test
     @Order(1)
     public void executeQuery01() {
-        assertEquals(1000000, application.executeQuery01());
-    }
+        assertEquals(1000000, application.executeQuery01());}
 }

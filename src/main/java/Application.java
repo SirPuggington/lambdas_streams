@@ -1,10 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -27,9 +24,6 @@ public class Application implements IApplication {
         application.executeQuery02();
         application.executeQuery03();
         application.executeQuery04();
-
-
-
         application.executeQuery05();
         application.executeQuery06();
         application.executeQuery07();
@@ -106,7 +100,10 @@ public class Application implements IApplication {
 
     public void executeQuery04() {
         System.out.println("--- executeQuery04 ---");
+        Predicate<Record> testAll = r -> r.getEntrance() == 2&&r.getCarSize().equals("l")&&r.getFloor()!=3&&r.getFloor()!=5&&r.getDurationInDays()<=3&&r.getPayment().equals("credit");
+        System.out.println(recordList.stream().filter(testAll).toList().size());
         System.out.println();
+
     }
 
     public void executeQuery05() {
@@ -157,6 +154,8 @@ public class Application implements IApplication {
 
     public void executeQuery09() {
         System.out.println("--- executeQuery09 ---");
+        Map<Integer,List<Record>>sizeMap=recordList.stream().collect(Collectors.groupingBy(Record::getFloor));
+        sizeMap.forEach((k,v)->System.out.println(k+": "+v.size()));
         System.out.println();
     }
 
@@ -178,6 +177,9 @@ public class Application implements IApplication {
 
     public void executeQuery12() {
         System.out.println("--- executeQuery12 ---");
+        Predicate<Record> testAll=r->r.getEntrance()==3&& Objects.equals(r.getCarSize(), "m") &&r.getParkingSpot()!=2&&r.getParkingSpot()!=4&&r.getDurationInDays()<=5&& Objects.equals(r.getPayment(), "debit");
+        Map<Integer,List<Record>>sizeMap=recordList.stream().filter(testAll).collect(Collectors.groupingBy(Record::getDurationInDays));
+        sizeMap.forEach((k,v)->System.out.println(k+": "+v.size()));
         System.out.println();
     }
 
