@@ -109,7 +109,7 @@ public class Application implements IApplication {
     public void executeQuery05() {
         System.out.println("--- executeQuery05 ---");
         Predicate<Record> testAll = r -> r.getFloor() == 1&&(r.getCarSize().equals("s")||r.getCarSize().equals("m"))&&r.getParkingSpot()<=5;
-        System.out.println(recordList.stream().filter(testAll).toList().stream().collect(Collectors.summingInt(Record::getDurationInDays)));
+        System.out.println((Integer) recordList.stream().filter(testAll).toList().stream().mapToInt(Record::getDurationInDays).sum());
         System.out.println();
     }
 
@@ -187,6 +187,9 @@ public class Application implements IApplication {
 
     public void executeQuery13() {
         System.out.println("--- executeQuery13 ---");
+        Predicate<Record> testAll = r -> (r.getEntrance() != 1 && r.getEntrance()!=3)&&(r.getCarSize().equals("s")||r.getCarSize().equals("m"))&&(r.getParkingSpot()==50||r.getParkingSpot()==100||r.getParkingSpot()==200||r.getParkingSpot()==300)&&r.getDurationInDays()>=5;
+        Map<Integer,List<Record>> myMap=recordList.stream().filter(testAll).collect(groupingBy(Record::getParkingSpot));
+        myMap.forEach((k,v)->System.out.println(k+":"+ v.stream().mapToInt(Record::getDurationInDays).sum()));
         System.out.println();
     }
 
